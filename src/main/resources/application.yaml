@@ -1,0 +1,23 @@
+
+logging:
+  level:
+    direct-teams: DEBUG
+    seda-adapter: DEBUG
+    com.example: TRACE
+    org.apache.camel: INFO
+    org.springframework: INFO
+  pattern:
+    console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M:%line - %msg%n"
+
+camel:
+  dataformat:
+    jackson:
+      auto-discover-object-mapper: true
+
+teams:
+  card:
+    type: MessageCard
+    context: http://schema.org/extensions
+    themeColor: 0076D7
+  webhook:
+    url: http:localhost:8080/teams-adapter/teams?httpMethod=post&bridgeEndpoint=true
