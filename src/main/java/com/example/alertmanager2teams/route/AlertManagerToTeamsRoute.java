@@ -1,6 +1,5 @@
 package com.example.alertmanager2teams.route;
 
-import com.example.alertmanager2teams.config.WebhookConfig;
 import com.example.alertmanager2teams.model.alertmanager.Alert;
 import com.example.alertmanager2teams.processor.JsonBeautifier;
 import com.example.alertmanager2teams.processor.TeamsCardConverter;
@@ -23,18 +22,8 @@ public class AlertManagerToTeamsRoute extends RouteBuilder {
     @Autowired
     private TeamsCardConverter teamsCardConverter;
 
-    @Autowired
-    private WebhookConfig webhookConfig;
-
-
     @Override
     public void configure() {
-
-        LOG.info("{}", webhookConfig);
-
-        LOG.info("{}", webhookConfig.lookupAlert("high_memory_load"));
-        LOG.info("{}", webhookConfig.lookupAlert("some_other_alert"));
-        LOG.info("{}", webhookConfig.lookupAlert("yet_another_alert"));
 
         restConfiguration()
                 .component("undertow")

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /*
- * Provides an emulator for a Teams webhook endpoint. This class should be removed if this application
+ * Provides an emulator for a Teams webhook endpoint. This class can be removed if this application
  * is used in a production environment.
  */
 @Component
@@ -34,6 +34,11 @@ public class TeamsEmulatorRoute extends RouteBuilder {
         rest("/second-alert")
                 .post()
                 .routeId("/second-alert")
+                .to("direct:teams");
+
+        rest("/other-alert")
+                .post()
+                .routeId("/other-alert")
                 .to("direct:teams");
 
         from("direct:teams")

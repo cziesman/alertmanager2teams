@@ -4,7 +4,6 @@ import com.example.alertmanager2teams.config.WebhookConfig;
 import com.example.alertmanager2teams.model.alertmanager.Alert;
 import com.example.alertmanager2teams.model.alertmanager.AlertDetails;
 import com.example.alertmanager2teams.model.alertmanager.Annotations;
-import com.example.alertmanager2teams.model.alertmanager.CommonAnnotations;
 import com.example.alertmanager2teams.model.alertmanager.Labels;
 import com.example.alertmanager2teams.model.teams.Fact;
 import com.example.alertmanager2teams.model.teams.Section;
@@ -51,9 +50,7 @@ public class TeamsCardConverter implements Processor {
 
         TeamsCard teamsCard = new TeamsCard();
 
-        CommonAnnotations commonAnnotations = alert.getCommonAnnotations();
-
-        teamsCard.setSummary(String.format("%s(%s)", commonAnnotations.getSummary(), alert.getStatus()));
+        teamsCard.setSummary(String.format("%s(%s)", alert.getCommonAnnotations().getSummary(), alert.getStatus()));
         teamsCard.setContext(context);
         teamsCard.setThemeColor(themeColor);
         teamsCard.setType(type);

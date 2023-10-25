@@ -13,12 +13,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "teams.webhooks")
 public class WebhookConfig {
 
+    private static final String WILDCARD = "*";
+
     private Map<String, Set<String>> alertMap;
 
     private Map<String, String> webhookMap;
 
     public String lookupAlert(String alert) {
 
+        // build a map to enable easy lookup of alert => channel mappings
         if (webhookMap == null || webhookMap.isEmpty()) {
             webhookMap = new HashMap<>();
             alertMap.entrySet().forEach(entry -> {
@@ -27,7 +30,11 @@ public class WebhookConfig {
                 });
             });
         }
+        if (webhookMap.containsKey(alert)) {
+            return webhookMap.get(alert);
+        } else {
+            return webhookMap.get(WILDCARD);
+        }
 
-        return webhookMap.get(alert);
     }
 }

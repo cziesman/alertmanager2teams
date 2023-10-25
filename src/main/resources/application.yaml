@@ -23,6 +23,7 @@ teams:
     alertMap:
       "[http://localhost:8080/teams-adapter/first-alert?httpMethod=post&bridgeEndpoint=true]":
         - high_memory_load
-        - some_other_alert
       "[http://localhost:8080/teams-adapter/second-alert?httpMethod=post&bridgeEndpoint=true]":
         - yet_another_alert
+      "[http://localhost:8080/teams-adapter/other-alert?httpMethod=post&bridgeEndpoint=true]":
+        - "*"
