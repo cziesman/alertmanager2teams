@@ -15,4 +15,6 @@ public class AlertDetails {
 
     private OffsetDateTime endsAt;
 
+    private String status;
+
 }
