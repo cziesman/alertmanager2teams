@@ -19,5 +19,10 @@ teams:
     type: MessageCard
     context: http://schema.org/extensions
     themeColor: 0076D7
-  webhook:
-    url: http:localhost:8080/teams-adapter/teams?httpMethod=post&bridgeEndpoint=true
+  webhooks:
+    alertMap:
+      "[http://localhost:8080/teams-adapter/first-alert?httpMethod=post&bridgeEndpoint=true]":
+        - high_memory_load
+        - some_other_alert
+      "[http://localhost:8080/teams-adapter/second-alert?httpMethod=post&bridgeEndpoint=true]":
+        - yet_another_alert

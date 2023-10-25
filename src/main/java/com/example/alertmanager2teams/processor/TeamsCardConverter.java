@@ -1,5 +1,6 @@
 package com.example.alertmanager2teams.processor;
 
+import com.example.alertmanager2teams.config.WebhookConfig;
 import com.example.alertmanager2teams.model.alertmanager.Alert;
 import com.example.alertmanager2teams.model.alertmanager.AlertDetails;
 import com.example.alertmanager2teams.model.alertmanager.Annotations;
@@ -10,6 +11,7 @@ import com.example.alertmanager2teams.model.teams.Section;
 import com.example.alertmanager2teams.model.teams.TeamsCard;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,8 @@ public class TeamsCardConverter implements Processor {
 
     private static final String TIMESTAMP = "Timestamp";
 
+    private static final String MS_TEAMS_CHANNEL = "ms.teams.channel";
+
     @Value("${teams.card.context}")
     private String context;
 
@@ -36,6 +40,9 @@ public class TeamsCardConverter implements Processor {
 
     @Value("${teams.card.type}")
     private String type;
+
+    @Autowired
+    private WebhookConfig webhookConfig;
 
     @Override
     public void process(Exchange exchange) {
@@ -96,6 +103,8 @@ public class TeamsCardConverter implements Processor {
         }
 
         exchange.getIn().setBody(teamsCard);
+        String channelUrl = webhookConfig.lookupAlert(alert.getGroupLabels().getAlertname());
+        exchange.getIn().setHeader(MS_TEAMS_CHANNEL, channelUrl);
     }
 
 }

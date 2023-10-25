@@ -26,9 +26,14 @@ public class TeamsEmulatorRoute extends RouteBuilder {
                 .contextPath("/teams-adapter")
                 .port(8080);
 
-        rest("/teams")
+        rest("/first-alert")
                 .post()
-                .routeId("/teams")
+                .routeId("/first-alert")
+                .to("direct:teams");
+
+        rest("/second-alert")
+                .post()
+                .routeId("/second-alert")
                 .to("direct:teams");
 
         from("direct:teams")
@@ -37,7 +42,6 @@ public class TeamsEmulatorRoute extends RouteBuilder {
                 .process(jsonBeautifier)
                 .log(LoggingLevel.DEBUG, "\n${body}")
                 .unmarshal().json(JsonLibrary.Jackson, TeamsCard.class)
-                .log(LoggingLevel.DEBUG, "\n${body}")
                 .setBody(simple(""));
     }
 
