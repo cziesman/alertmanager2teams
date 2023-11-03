@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +27,7 @@ public class AlertManagerToTeamsRoute extends RouteBuilder {
     public void configure() {
 
         restConfiguration()
-                .component("undertow")
-                .contextPath("/teams-adapter")
-                .port(8080);
+                .bindingMode(RestBindingMode.json);
 
         rest("/alert")
                 .post()
@@ -43,7 +42,7 @@ public class AlertManagerToTeamsRoute extends RouteBuilder {
 
         from("seda:adapter")
                 .routeId("seda-adapter")
-                .convertBodyTo(String.class)
+                .marshal().json()
                 .process(jsonBeautifier)
                 .log(LoggingLevel.DEBUG, "\n${body}")
                 .unmarshal().json(JsonLibrary.Jackson, Alert.class)

@@ -5,6 +5,7 @@ import com.example.alertmanager2teams.processor.JsonBeautifier;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,10 @@ public class TeamsEmulatorRoute extends RouteBuilder {
     private JsonBeautifier jsonBeautifier;
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
 
         restConfiguration()
-                .component("undertow")
-                .contextPath("/teams-adapter")
-                .port(8080);
+                .bindingMode(RestBindingMode.json);
 
         rest("/first-alert")
                 .post()
@@ -43,7 +42,7 @@ public class TeamsEmulatorRoute extends RouteBuilder {
 
         from("direct:teams")
                 .routeId("direct-teams")
-                .convertBodyTo(String.class)
+                .marshal().json()
                 .process(jsonBeautifier)
                 .log(LoggingLevel.DEBUG, "\n${body}")
                 .unmarshal().json(JsonLibrary.Jackson, TeamsCard.class)

@@ -35,6 +35,6 @@ public class WebhookConfig {
         } else {
             return webhookMap.get(WILDCARD);
         }
-
     }
+
 }
